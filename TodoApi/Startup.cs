@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TodoApi.Data;
+using TodoApi.Services;
 
 namespace TodoApi
 {
@@ -28,10 +29,10 @@ namespace TodoApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
-            //services.AddDbContext<DataContext>();
-
+            services.AddMvc();
             services.AddDbContext<DataContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSingleton<ITodoItemService, FakeTodoItemService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
