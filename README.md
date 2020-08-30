@@ -1,7 +1,8 @@
 # aspnet-core-todoapi
 Learning ASP.Net Core using this Practical Example
 
-##Objectives
+## Objectives
+
 The basics of the MVC (Model-View-Controller) pattern in ASP.NET Core
 What dependency injection is and why it's useful
 How to read and write data to a database using Entity Framework
