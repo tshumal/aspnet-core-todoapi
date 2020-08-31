@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TodoApi.Data;
 using TodoApi.Models;
+using TodoApi.Services;
 
 namespace TodoApi.Controllers
 {
@@ -10,28 +12,31 @@ namespace TodoApi.Controllers
     [Route("api/[controller]")]
     public class TodoController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly ITodoItemService _todoItemService;
 
-        public TodoController(DataContext context)
+        public TodoController(ITodoItemService todoItemService)
         {
-            _context = context;
-            if(_context.TodoItems.Count() == 0)
-            {
-                _context.TodoItems.Add(new TodoItem {Name = "Item 1", Title = "Item 1 Title"});
-                _context.SaveChanges();
-            }
+            _todoItemService = todoItemService;
+        }
+
+        [HttpGet("incomplete-items")]
+        public async Task<ActionResult<List<TodoItem>>> GetIncompleteItems()
+        {
+            var items =  await _todoItemService.GetIncompleteItemsAsync();
+            return items;
         }
 
         [HttpGet]
-        public ActionResult<List<TodoItem>> GetAll()
+        public async Task<ActionResult<List<TodoItem>>> GetAll()
         {
-            return _context.TodoItems.ToList();
+            var items =  await _todoItemService.GetAllAsync();
+            return items;
         }
 
         [HttpGet("{id}", Name = "GetToDo")]
-        public ActionResult<TodoItem> GetById(long id)
+        public async Task<ActionResult<TodoItem>> GetById(long id)
         {
-            var item = _context.TodoItems.Find(id);
+            var item = await _todoItemService.GetByIdAsync(id);
             if (item == null)
             {
                 return NotFound();
