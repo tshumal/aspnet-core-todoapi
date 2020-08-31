@@ -38,5 +38,13 @@ namespace TodoApi.Services
             return await _context.TodoItems
                 .ToListAsync();
         }
+
+        public async Task<bool> AddTodoItem(TodoItem todoItem)
+        {
+            _context.TodoItems.Add(todoItem);
+            var saveResult = await _context.SaveChangesAsync();
+
+            return saveResult == 1;
+        }        
     }
 }

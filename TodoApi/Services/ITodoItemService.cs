@@ -10,6 +10,8 @@ namespace TodoApi.Services
 
         public Task<TodoItem> GetByIdAsync(long id); 
 
-        public Task<List<TodoItem>> GetAllAsync();           
+        public Task<List<TodoItem>> GetAllAsync(); 
+
+        public Task<bool> AddTodoItem(TodoItem todoItem);          
     }
 }
