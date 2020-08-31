@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TodoApi.Migrations
 {
@@ -11,10 +11,11 @@ namespace TodoApi.Migrations
                 name: "TodoItems",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    IsComplete = table.Column<bool>(nullable: false)
+                    IsComplete = table.Column<bool>(nullable: false),
+                    Title = table.Column<string>(nullable: false),
+                    DueAt = table.Column<DateTimeOffset>(nullable: true)
                 },
                 constraints: table =>
                 {
